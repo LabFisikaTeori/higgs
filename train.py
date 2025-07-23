@@ -31,7 +31,11 @@ def train_model(config_path: Path):
     print(model)
 
     criterion = nn.BCEWithLogitsLoss()
-    optimizer = optim.Adam(model.parameters(), lr=training_config['learning_rate'])
+    optimizer = optim.Adam(
+        model.parameters(),
+        lr=training_config['learning_rate'],
+        weight_decay=training_config.get('weight_decay', 0)
+    )
     auc_metric = BinaryAUROC().to(device)
 
     best_val_loss = float('inf')
